@@ -14,6 +14,7 @@ const GET_MOVIES = gql`
 `;
 
 const Container = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -47,6 +48,14 @@ const Loading = styled.div`
   margin-top: 10px;
 `;
 
+const Movies = styled.div`
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+  top: 35vh;
+`;
+
 const Home = () => {
   const { loading, data } = useQuery(GET_MOVIES);
 
@@ -57,7 +66,11 @@ const Home = () => {
         <Subtitle>I love graphql</Subtitle>
       </Header>
       {!loading && data && data.movies ? (
-        data.movies.map((movie) => <Movie key={movie.id} id={movie.id} />)
+        <Movies>
+          {data.movies.map((movie) => (
+            <Movie key={movie.id} id={movie.id} bg={movie.medium_cover_image} />
+          ))}
+        </Movies>
       ) : (
         <Loading>Loading ...</Loading>
       )}
